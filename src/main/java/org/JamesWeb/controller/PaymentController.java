@@ -15,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+
 @Slf4j
 @Controller
 public class PaymentController {
@@ -27,6 +30,12 @@ public class PaymentController {
             log.info("GET processPayment/{} - preparing payment page", transactionId);
             TransactionDetails findTransactionDetails = transactionDetailsRepository.findByTransactionId(transactionId).
                     orElseThrow(()-> new OrderIdExpired("Transaction id not found"));
+        if (LocalDateTime.now().isAfter(findTransactionDetails.getExpiresAt())) {
+
+            findTransactionDetails.setStatus(TransactionStatus.FAILED);
+            transactionDetailsRepository.save(findTransactionDetails);
+            throw new OrderIdExpired("Transaction has expired");
+        }
             model.addAttribute("txnId",transactionId);
             model.addAttribute("amount",findTransactionDetails.getAmount());
             return "payment-page";

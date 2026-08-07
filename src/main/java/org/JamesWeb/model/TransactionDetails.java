@@ -43,5 +43,6 @@ public class TransactionDetails {
     private String clientIp;
 
     private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
 
 }

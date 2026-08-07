@@ -21,7 +21,7 @@ public class APIService {
         String publicKey = ApiKeyUtil.generatePublicKey();
         String secretKey = ApiKeyUtil.generateSecretKey();
         MerchantDetails merchantDetails = getMerchantDetailsById.getMerchantDetailsById(authentication);
-        if(merchantDetails.getApiModel().isEmpty()){
+        if(merchantDetails.getApiModel().isEmpty() && merchantDetails.getStatus().equals("Approved")){
             APIModel apiModel = new APIModel();
             apiModel.setPublicKey(publicKey);
             apiModel.setActive(true);

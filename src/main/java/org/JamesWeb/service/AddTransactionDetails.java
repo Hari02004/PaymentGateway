@@ -15,11 +15,11 @@ public class AddTransactionDetails {
         transactionDetails.setCurrency(paymentDetailsDto.getCurrency());
         transactionDetails.setBusinessEmail(paymentDetailsDto.getBusinessEmail());
         transactionDetails.setCustomerName(paymentDetailsDto.getCustomerName());
-        transactionDetails.setCreatedAt(LocalDateTime.now());
         transactionDetails.setMerchantDetails(merchantDetails);
         String transactionId = "TXN"+merchantDetails.getMerchantId()+ System.currentTimeMillis();
         transactionDetails.setTransactionId(transactionId);
         transactionDetails.setCreatedAt(LocalDateTime.now());
+        transactionDetails.setExpiresAt(LocalDateTime.now().plusMinutes(5));
         transactionDetails.setStatus(TransactionStatus.WAITING);
         return transactionDetails;
     }

@@ -16,7 +16,6 @@ public class PageableConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        System.out.println("Registering PageableHandlerMethodArgumentResolver");
         resolvers.add(new PageableHandlerMethodArgumentResolver());
     }
 }

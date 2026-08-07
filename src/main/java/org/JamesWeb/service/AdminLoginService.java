@@ -42,7 +42,6 @@ public class AdminLoginService {
                             ()->new UserEmailNotFoundException("Email not found"));
 
             List<User_roles> userRoles = userRolesRepo.findByUsersId(user.getId());
-            userRoles.forEach(ur -> System.out.println("Role: " + ur.getRole().getRole()));
             boolean isAdmin = userRoles.stream()
                     .anyMatch(userRole ->
                             userRole.getRole().getRole().equals(Role.ROLE_ADMIN));
@@ -50,8 +49,7 @@ public class AdminLoginService {
                 return jwtService.generateToken(requestDto.getUsername());
             }
         }catch (Exception e){
-            System.out.println(e);
-            e.printStackTrace();
+            throw new AdminErrorException("Invalid password or email");
         }
        throw new AdminErrorException("You are not admin");
     }

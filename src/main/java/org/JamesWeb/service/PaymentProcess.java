@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.JamesWeb.DTO.PaymentDetailsDto;
 import org.JamesWeb.DTO.ResponseDto;
 import org.JamesWeb.exception.AuthenticationPasswordException;
+import org.JamesWeb.exception.OrderIdExpired;
 import org.JamesWeb.exception.UserEmailNotFoundException;
 import org.JamesWeb.model.APIModel;
 import org.JamesWeb.model.MerchantDetails;
@@ -17,6 +18,7 @@ import org.JamesWeb.util.generateUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -58,17 +60,26 @@ public class PaymentProcess {
             if(!checkAuth.equals(splitAuth)){
                 throw new AuthenticationPasswordException("AuthenticationMismatch");
             }
-            if(transaction.isPresent()) {
+            if (transaction.isPresent()) {
+
                 TransactionDetails details = transaction.get();
-                if (details.getStatus().equals(TransactionStatus.WAITING)) {
-                    url = generateUrl.createUrl() + details.getTransactionId();
-                    return convertToResponse(details,url);
+
+                if (details.getStatus() == TransactionStatus.WAITING) {
+
+                    if (LocalDateTime.now().isAfter(details.getExpiresAt())) {
+
+                        details.setStatus(TransactionStatus.FAILED);
+                        detailsRepository.save(details);
+
+                    throw new OrderIdExpired("Transaction has expired");
                 }
+
+                url = generateUrl.createUrl() + details.getTransactionId();
+                return convertToResponse(details, url);
             }
+        }
             TransactionDetails transactionDetails = addTransactionDetails.addDetails(paymentDto,merchantDetails);
             transactionDetails.setClientIp(servletRequest.getRemoteAddr());
-            transactionDetails.setStatus(TransactionStatus.WAITING);
-            transactionDetails.setFailureReason(null);
             url = generateUrl.createUrl()+transactionDetails.getTransactionId();
             detailsRepository.save(transactionDetails);
 

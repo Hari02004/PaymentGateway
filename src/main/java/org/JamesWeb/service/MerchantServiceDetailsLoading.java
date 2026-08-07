@@ -25,7 +25,7 @@
              if(merchantRepository.existsByMerchantId(merchantID)){
                  merchantID = merchantID+1;
              }
-             String status = "APPROVED";
+             String status = "Waiting";
              merchantDetails.setMerchantId(merchantID);
              merchantDetails.setStatus(status);
              merchantDetails.setCreated_at(LocalDateTime.now());

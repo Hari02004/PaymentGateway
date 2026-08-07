@@ -24,4 +24,5 @@ public interface MerchantRepository extends JpaRepository<MerchantDetails,String
             WHERE m.merchantId = :merchantId
                         """)
     MerchantDetails findByMerchantIdWithTransactions(@Param("merchantId") String merchantId);
+    Long countByStatus(String status);
 }
