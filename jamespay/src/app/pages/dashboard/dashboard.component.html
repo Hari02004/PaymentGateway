@@ -1,0 +1,115 @@
+<div class="dashboard" [class.dashboard--sidebar-open]="isSidebarOpen()">
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__brand-mark">JP</span>
+      <span>JamesPay</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a routerLink="/dashboard" routerLinkActive="sidebar__link--active" class="sidebar__link">
+        <span class="sidebar__link-icon">🏠</span> Overview
+      </a>
+      <a href="#" class="sidebar__link">
+        <span class="sidebar__link-icon">💳</span> Transactions
+      </a>
+      <a href="#" class="sidebar__link">
+        <span class="sidebar__link-icon">🏦</span> Payouts
+      </a>
+      <a href="#" class="sidebar__link">
+        <span class="sidebar__link-icon">👥</span> Team
+      </a>
+      <a href="#" class="sidebar__link">
+        <span class="sidebar__link-icon">⚙️</span> Settings
+      </a>
+    </nav>
+
+    <button type="button" class="sidebar__logout" (click)="logout()">
+      <span class="sidebar__link-icon">↩</span> Log out
+    </button>
+  </aside>
+
+  @if (isSidebarOpen()) {
+    <button class="sidebar__scrim" type="button" (click)="toggleSidebar()" aria-label="Close menu"></button>
+  }
+
+  <div class="dashboard__main">
+    <header class="topbar">
+      <button class="topbar__menu-btn" type="button" (click)="toggleSidebar()" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <h1 class="topbar__title">Overview</h1>
+
+      <div class="topbar__profile">
+        <button type="button" class="profile-trigger" (click)="toggleProfileMenu()">
+          <span class="profile-trigger__avatar">{{ initialsFor(currentUser()?.name) }}</span>
+          <span class="profile-trigger__name">{{ currentUser()?.name ?? 'Account' }}</span>
+        </button>
+
+        @if (isProfileMenuOpen()) {
+          <div class="profile-menu">
+            <div class="profile-menu__header">
+              <strong>{{ currentUser()?.name ?? 'Account' }}</strong>
+              <span>{{ currentUser()?.email ?? '' }}</span>
+            </div>
+            <a href="#" class="profile-menu__item">Profile settings</a>
+            <a href="#" class="profile-menu__item">API keys</a>
+            <button type="button" class="profile-menu__item profile-menu__item--danger" (click)="logout()">
+              Log out
+            </button>
+          </div>
+        }
+      </div>
+    </header>
+
+    <main class="dashboard__content">
+      <section class="cards-grid">
+        @for (card of summaryCards; track card.label) {
+          <article class="summary-card">
+            <span class="summary-card__label">{{ card.label }}</span>
+            <span class="summary-card__value">{{ card.value }}</span>
+            <span class="summary-card__delta" [class.summary-card__delta--down]="card.trend === 'down'">
+              {{ card.delta }} vs last period
+            </span>
+          </article>
+        }
+      </section>
+
+      <section class="transactions-panel">
+        <div class="transactions-panel__header">
+          <h2>Recent transactions</h2>
+          <a href="#" class="transactions-panel__link">View all</a>
+        </div>
+
+        <div class="table-wrap">
+          <table class="transactions-table">
+            <thead>
+              <tr>
+                <th>Transaction ID</th>
+                <th>Merchant</th>
+                <th>Method</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (txn of transactions; track txn.id) {
+                <tr>
+                  <td class="mono">{{ txn.id }}</td>
+                  <td>{{ txn.merchant }}</td>
+                  <td>{{ txn.method }}</td>
+                  <td>{{ txn.date }}</td>
+                  <td class="mono">{{ txn.amount }}</td>
+                  <td>
+                    <span class="status-badge" [attr.data-status]="txn.status">{{ txn.status }}</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

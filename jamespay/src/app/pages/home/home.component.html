@@ -1,0 +1,120 @@
+<app-navbar />
+
+<main>
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="hero__eyebrow">Enterprise Payment Gateway</span>
+      <h1 class="hero__title">The settlement layer for businesses that move real money.</h1>
+      <p class="hero__subtitle">
+        JamesPay unifies card processing, global payouts, and ledger reconciliation
+        behind one API - so your finance and engineering teams stop reconciling
+        spreadsheets and start shipping.
+      </p>
+      <div class="hero__actions">
+        <a routerLink="/register" class="btn-hero btn-hero--primary">Create free account</a>
+        <a routerLink="/login" class="btn-hero btn-hero--ghost">Sign in</a>
+      </div>
+    </div>
+
+    <!-- Signature element: a live-looking settlement ticker, the one thing this
+         page is meant to be remembered by - it makes "money moving" tangible. -->
+    <div class="ticker" role="presentation" aria-hidden="true">
+      <div class="ticker__track">
+        @for (entry of tickerEntries; track entry.merchant) {
+          <span class="ticker__item">
+            <span class="ticker__dot" [class.ticker__dot--pending]="entry.status === 'pending'"></span>
+            {{ entry.merchant }}
+            <strong>{{ entry.amount }}</strong>
+          </span>
+        }
+        @for (entry of tickerEntries; track entry.merchant) {
+          <span class="ticker__item" aria-hidden="true">
+            <span class="ticker__dot" [class.ticker__dot--pending]="entry.status === 'pending'"></span>
+            {{ entry.merchant }}
+            <strong>{{ entry.amount }}</strong>
+          </span>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stats__inner">
+      @for (stat of stats; track stat.label) {
+        <div class="stats__item">
+          <span class="stats__value">{{ stat.value }}</span>
+          <span class="stats__label">{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="section-heading">
+      <span class="section-heading__eyebrow">Platform</span>
+      <h2 class="section-heading__title">Everything the payment stack needs, in one place</h2>
+    </div>
+    <div class="features__grid">
+      @for (feature of features; track feature.title) {
+        <article class="feature-card">
+          <span class="feature-card__icon">{{ feature.icon }}</span>
+          <h3 class="feature-card__title">{{ feature.title }}</h3>
+          <p class="feature-card__description">{{ feature.description }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="section-heading">
+      <span class="section-heading__eyebrow">Customers</span>
+      <h2 class="section-heading__title">Trusted by finance and engineering teams alike</h2>
+    </div>
+    <div class="testimonials__grid">
+      @for (testimonial of testimonials; track testimonial.name) {
+        <figure class="testimonial-card">
+          <blockquote>&ldquo;{{ testimonial.quote }}&rdquo;</blockquote>
+          <figcaption>
+            <strong>{{ testimonial.name }}</strong>
+            <span>{{ testimonial.role }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <div class="section-heading">
+      <span class="section-heading__eyebrow">Pricing</span>
+      <h2 class="section-heading__title">Pay for volume, not for seats</h2>
+    </div>
+    <div class="pricing__grid">
+      @for (tier of pricingTiers; track tier.name) {
+        <article class="pricing-card" [class.pricing-card--highlighted]="tier.highlighted">
+          @if (tier.highlighted) {
+            <span class="pricing-card__badge">Most popular</span>
+          }
+          <h3 class="pricing-card__name">{{ tier.name }}</h3>
+          <p class="pricing-card__price">
+            {{ tier.price }} <span>{{ tier.cadence }}</span>
+          </p>
+          <p class="pricing-card__description">{{ tier.description }}</p>
+          <ul class="pricing-card__features">
+            @for (item of tier.features; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+          <a routerLink="/register" class="pricing-card__cta">Get started</a>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <h2>Ready to see your settlements in one place?</h2>
+    <p>Set up a sandbox account in minutes. No card required.</p>
+    <a routerLink="/register" class="btn-hero btn-hero--primary">Create free account</a>
+  </section>
+</main>
+
+<app-footer />

@@ -1,0 +1,35 @@
+<header class="navbar">
+  <div class="navbar__inner">
+    <a routerLink="/" class="navbar__brand" (click)="closeMenu()">
+      <span class="navbar__brand-mark">JP</span>
+      <span class="navbar__brand-name">JamesPay</span>
+    </a>
+
+    <button
+      class="navbar__toggle"
+      type="button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-label="Toggle navigation menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="navbar__links" [class.navbar__links--open]="isMenuOpen()">
+      <a routerLink="/" routerLinkActive="navbar__link--active" [routerLinkActiveOptions]="{ exact: true }" class="navbar__link" (click)="closeMenu()">Home</a>
+      <a href="#features" class="navbar__link" (click)="closeMenu()">Features</a>
+      <a href="#pricing" class="navbar__link" (click)="closeMenu()">Pricing</a>
+
+      @if (currentUser()) {
+        <a routerLink="/dashboard" routerLinkActive="navbar__link--active" class="navbar__link" (click)="closeMenu()">Dashboard</a>
+        <button type="button" class="navbar__cta navbar__cta--ghost" (click)="logout()">Log out</button>
+      } @else {
+        <a routerLink="/login" routerLinkActive="navbar__link--active" class="navbar__link navbar__link--mobile-only" (click)="closeMenu()">Log in</a>
+        <a routerLink="/login" class="navbar__cta navbar__cta--ghost">Log in</a>
+        <a routerLink="/register" class="navbar__cta">Create account</a>
+      }
+    </nav>
+  </div>
+</header>

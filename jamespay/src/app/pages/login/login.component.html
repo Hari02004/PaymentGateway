@@ -1,0 +1,120 @@
+<div class="auth-screen">
+  <div class="auth-card">
+    <aside class="auth-card__panel">
+      <a routerLink="/" class="auth-card__brand">
+        <span class="auth-card__brand-mark">JP</span>
+        <span>JamesPay</span>
+      </a>
+      <h1 class="auth-card__headline">Move money with confidence.</h1>
+      <p class="auth-card__copy">
+        Sign in to review settlements, manage payouts, and monitor every transaction
+        flowing through your account in real time.
+      </p>
+      <ul class="auth-card__points">
+        <li>256-bit encrypted transport on every request</li>
+        <li>Real-time settlement visibility</li>
+        <li>Role-based access for your whole team</li>
+      </ul>
+    </aside>
+
+    <section class="auth-card__form">
+      <h2 class="auth-card__form-title">Sign in</h2>
+      <p class="auth-card__form-subtitle">Welcome back. Enter your details to continue.</p>
+
+      @if (errorMessage()) {
+        <div class="auth-alert" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+          <label class="field__label" for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            class="field__input"
+            formControlName="email"
+            placeholder="you@company.com"
+            autocomplete="email"
+            [class.field__input--invalid]="email.invalid && email.touched"
+          />
+          @if (email.invalid && email.touched) {
+            <span class="field__error">
+              @if (email.errors?.['required']) {
+                Email is required.
+              } @else if (email.errors?.['email']) {
+                Enter a valid email address.
+              }
+            </span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="password">Password</label>
+          <div class="field__input-wrap">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              id="password"
+              class="field__input"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              [class.field__input--invalid]="password.invalid && password.touched"
+            />
+            <button
+              type="button"
+              class="field__toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            >
+              {{ showPassword() ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+          @if (password.invalid && password.touched) {
+            <span class="field__error">
+              @if (password.errors?.['required']) {
+                Password is required.
+              } @else if (password.errors?.['minlength']) {
+                Password must be at least 8 characters.
+              }
+            </span>
+          }
+        </div>
+
+        <div class="field field--row">
+          <label class="checkbox">
+            <input type="checkbox" formControlName="rememberMe" />
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="auth-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner" aria-hidden="true"></span>
+            Signing in&hellip;
+          } @else {
+            Sign in
+          }
+        </button>
+      </form>
+
+      <div class="divider"><span>or continue with</span></div>
+
+      <div class="oauth-row">
+        <button type="button" class="btn-oauth" (click)="loginWithGoogle()">
+          <span class="btn-oauth__icon">G</span> Google
+        </button>
+        <button type="button" class="btn-oauth" (click)="loginWithGitHub()">
+          <span class="btn-oauth__icon">GH</span> GitHub
+        </button>
+      </div>
+
+      <p class="auth-card__switch">
+        Don't have an account?
+        <a routerLink="/register" class="auth-link">Create one</a>
+      </p>
+    </section>
+  </div>
+</div>

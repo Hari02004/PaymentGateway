@@ -1,0 +1,90 @@
+/* ==========================================================================
+   JamesPay design tokens
+   Palette:  --jp-navy (primary), --jp-blue (accent/CTA), --jp-mint (success),
+             --jp-red (error), --jp-bg (canvas), --jp-surface (cards)
+   Type:     Sora (display), Inter (body/UI), IBM Plex Mono (amounts/ids)
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --jp-navy: #0b1f3b;
+  --jp-navy-light: #16305a;
+  --jp-blue: #2f6fed;
+  --jp-blue-dark: #1e54c4;
+  --jp-mint: #12b76a;
+  --jp-red: #e5484d;
+  --jp-amber: #d4a72c;
+  --jp-bg: #f5f7fa;
+  --jp-surface: #ffffff;
+  --jp-border: #e3e8ef;
+  --jp-text: #101828;
+  --jp-text-muted: #5a6472;
+  --jp-text-inverse: #f5f7fa;
+
+  /* Type */
+  --jp-font-display: 'Sora', 'Segoe UI', sans-serif;
+  --jp-font-body: 'Inter', 'Segoe UI', sans-serif;
+  --jp-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Elevation */
+  --jp-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --jp-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+  --jp-shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.12);
+
+  /* Radius */
+  --jp-radius-sm: 6px;
+  --jp-radius-md: 12px;
+  --jp-radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--jp-font-body);
+  background: var(--jp-bg);
+  color: var(--jp-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--jp-font-display);
+  color: var(--jp-navy);
+  margin: 0;
+}
+
+a {
+  color: var(--jp-blue);
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--jp-font-body);
+}
+
+/* Respect reduced-motion preferences across the whole app */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--jp-blue);
+  outline-offset: 2px;
+}

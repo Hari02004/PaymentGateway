@@ -1,0 +1,189 @@
+<div class="auth-screen">
+  <div class="auth-card">
+    <aside class="auth-card__panel">
+      <a routerLink="/" class="auth-card__brand">
+        <span class="auth-card__brand-mark">JP</span>
+        <span>JamesPay</span>
+      </a>
+      <h1 class="auth-card__headline">Built for teams that process payments at scale.</h1>
+      <p class="auth-card__copy">
+        Create your organization's account and get sandbox API keys, settlement
+        reporting, and team access controls in minutes.
+      </p>
+      <ul class="auth-card__points">
+        <li>Free sandbox environment, no card required</li>
+        <li>Dedicated onboarding specialist</li>
+        <li>Cancel anytime, no lock-in contracts</li>
+      </ul>
+    </aside>
+
+    <section class="auth-card__form">
+      <h2 class="auth-card__form-title">Create your account</h2>
+      <p class="auth-card__form-subtitle">Set up JamesPay for your organization.</p>
+
+      @if (errorMessage()) {
+        <div class="auth-alert auth-alert--error" role="alert">{{ errorMessage() }}</div>
+      }
+      @if (successMessage()) {
+        <div class="auth-alert auth-alert--success" role="status">{{ successMessage() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field-grid">
+          <div class="field">
+            <label class="field__label" for="fullName">Full name</label>
+            <input
+              id="fullName"
+              type="text"
+              class="field__input"
+              formControlName="fullName"
+              placeholder="Jane Cooper"
+              autocomplete="name"
+              [class.field__input--invalid]="fullName.invalid && fullName.touched"
+            />
+            @if (fullName.invalid && fullName.touched) {
+              <span class="field__error">Full name must be at least 2 characters.</span>
+            }
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="companyName">Company name</label>
+            <input
+              id="companyName"
+              type="text"
+              class="field__input"
+              formControlName="companyName"
+              placeholder="Acme Corp"
+              autocomplete="organization"
+              [class.field__input--invalid]="companyName.invalid && companyName.touched"
+            />
+            @if (companyName.invalid && companyName.touched) {
+              <span class="field__error">Company name is required.</span>
+            }
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label class="field__label" for="email">Email address</label>
+            <input
+              id="email"
+              type="email"
+              class="field__input"
+              formControlName="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+              [class.field__input--invalid]="email.invalid && email.touched"
+            />
+            @if (email.invalid && email.touched) {
+              <span class="field__error">
+                @if (email.errors?.['required']) { Email is required. }
+                @else if (email.errors?.['email']) { Enter a valid email address. }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="phone">Phone number</label>
+            <input
+              id="phone"
+              type="tel"
+              class="field__input"
+              formControlName="phone"
+              placeholder="+1 555 000 1234"
+              autocomplete="tel"
+              [class.field__input--invalid]="phone.invalid && phone.touched"
+            />
+            @if (phone.invalid && phone.touched) {
+              <span class="field__error">
+                @if (phone.errors?.['required']) { Phone number is required. }
+                @else if (phone.errors?.['pattern']) { Enter a valid phone number. }
+              </span>
+            }
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="password">Password</label>
+          <div class="field__input-wrap">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              id="password"
+              class="field__input"
+              formControlName="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              [class.field__input--invalid]="password.invalid && password.touched"
+            />
+            <button
+              type="button"
+              class="field__toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            >
+              {{ showPassword() ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+
+          @if (password.value) {
+            <div class="strength-meter" [attr.data-level]="passwordStrengthLabel()">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <span class="strength-label" [attr.data-level]="passwordStrengthLabel()">
+              Strength: {{ passwordStrengthLabel() }}
+            </span>
+          }
+
+          @if (password.invalid && password.touched) {
+            <span class="field__error">Password must be at least 8 characters.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="confirmPassword">Confirm password</label>
+          <div class="field__input-wrap">
+            <input
+              [type]="showConfirmPassword() ? 'text' : 'password'"
+              id="confirmPassword"
+              class="field__input"
+              formControlName="confirmPassword"
+              placeholder="Re-enter your password"
+              autocomplete="new-password"
+              [class.field__input--invalid]="(confirmPassword.touched && confirmPassword.invalid) || (form.errors?.['passwordMismatch'] && confirmPassword.touched)"
+            />
+            <button
+              type="button"
+              class="field__toggle"
+              (click)="toggleConfirmPasswordVisibility()"
+              [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
+            >
+              {{ showConfirmPassword() ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+          @if (confirmPassword.touched && form.errors?.['passwordMismatch']) {
+            <span class="field__error">Passwords do not match.</span>
+          }
+        </div>
+
+        <label class="checkbox checkbox--terms">
+          <input type="checkbox" formControlName="acceptTerms" />
+          <span>I agree to the Terms of Service and Privacy Policy</span>
+        </label>
+
+        <button type="submit" class="btn-primary" [disabled]="!canSubmit()">
+          @if (isLoading()) {
+            <span class="spinner" aria-hidden="true"></span>
+            Creating account&hellip;
+          } @else {
+            Create account
+          }
+        </button>
+      </form>
+
+      <p class="auth-card__switch">
+        Already have an account?
+        <a routerLink="/login" class="auth-link">Sign in</a>
+      </p>
+    </section>
+  </div>
+</div>

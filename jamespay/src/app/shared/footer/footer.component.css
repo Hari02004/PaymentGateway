@@ -1,0 +1,77 @@
+.footer {
+  background: var(--jp-navy);
+  color: rgba(245, 247, 250, 0.75);
+  padding: 56px 24px 24px;
+}
+
+.footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer__brand-name {
+  font-family: var(--jp-font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--jp-text-inverse);
+}
+
+.footer__tagline {
+  max-width: 280px;
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.footer__columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.footer__heading {
+  color: var(--jp-text-inverse);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.footer__link {
+  color: rgba(245, 247, 250, 0.7);
+  font-size: 0.9rem;
+}
+
+.footer__link:hover {
+  color: var(--jp-text-inverse);
+}
+
+.footer__bottom {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-family: var(--jp-font-mono);
+}
+
+@media (max-width: 640px) {
+  .footer__inner {
+    flex-direction: column;
+  }
+}
