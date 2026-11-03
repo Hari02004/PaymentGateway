@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd
+
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+
+       http://www.springframework.org/schema/tx
+       https://www.springframework.org/schema/tx/spring-tx.xsd
+
+       http://www.springframework.org/schema/data/jpa
+       https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <context:component-scan base-package="org.JamesWeb"/>
+
+
+    <jpa:repositories base-package="org.JamesWeb.repository"/>
+
+
+    <context:property-placeholder
+            location="classpath:database.properties,classpath:adminEmail.properties"/>
+
+    <!-- Scan UserService and Repository -->
+
+    <context:component-scan base-package="org.JamesWeb"/>
+
+    <!-- Database Connection -->
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <property name="driverClassName"
+                  value="${db.driver}"/>
+
+        <property name="url"
+                  value="${db.url}"/>
+
+        <property name="username"
+                  value="${db.username}"/>
+
+        <property name="password"
+                  value="${db.password}"/>
+
+    </bean>
+
+
+    <!-- Entity Manager Factory -->
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+
+        <property name="dataSource"
+                  ref="dataSource"/>
+
+
+        <property name="packagesToScan"
+                  value="org.JamesWeb.model"/>
+
+
+        <property name="jpaVendorAdapter">
+
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+        </property>
+
+
+        <property name="jpaProperties">
+
+            <props>
+
+
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.MySQLDialect
+                </prop>
+
+
+
+                <prop key="hibernate.format_sql">
+                    true
+                </prop>
+
+
+                <prop key="hibernate.hbm2ddl.auto">
+                    update
+                </prop>
+
+
+            </props>
+
+        </property>
+
+
+    </bean>
+
+
+
+
+    <!-- Transaction Management -->
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+
+
+        <property name="entityManagerFactory"
+                  ref="entityManagerFactory"/>
+
+    </bean>
+
+
+
+    <tx:annotation-driven/>
+
+</beans>
