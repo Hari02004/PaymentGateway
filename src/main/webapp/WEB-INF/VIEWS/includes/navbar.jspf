@@ -1,0 +1,10 @@
+<nav class="app-navbar">
+    <div class="brand">Fin<span>Tech</span> Pay</div>
+    <div class="nav-links">
+        <a href="${pageContext.request.contextPath}/home">Dashboard</a>
+        <a href="${pageContext.request.contextPath}/merchant">Merchant</a>
+        <a href="${pageContext.request.contextPath}/merchant/fetch/details">Profile</a>
+        <a href="${pageContext.request.contextPath}/merchant/apikey">API Keys</a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn btn-logout">Logout</a>
+    </div>
+</nav>

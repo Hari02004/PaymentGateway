@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+<<<<<<< HEAD
+    <file url="file://$PROJECT_DIR$/fintech-project/src/main/java" charset="UTF-8" />
+=======
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+>>>>>>> 8d9b7030904d8971277d77e60e8ff4a94acfd723
+  </component>
+</project>
