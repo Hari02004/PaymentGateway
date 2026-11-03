@@ -40,6 +40,7 @@ public class PaymentProcess {
         APIModel apiModel1 = apiRepo.findByPublicKey(servletRequest.getHeader("Public-Key")).orElseThrow(()-> new AuthenticationPasswordException("Authentication mismatch"));
         String merchantId = apiModel1.getMerchantDetails().getMerchantId();
         MerchantDetails merchantDetails = merchantRepository.findByMerchantId(merchantId);
+        System.out.println(merchantDetails.getBusiness_email());
         if(!merchantDetails.getBusiness_email().equals(paymentDto.getBusinessEmail())){
             throw new UserEmailNotFoundException("Please enter your business email address");
         }

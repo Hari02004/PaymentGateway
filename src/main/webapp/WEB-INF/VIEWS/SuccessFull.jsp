@@ -60,7 +60,7 @@
                 </table>
             </div>
             <div class="app-card-footer">
-                <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+                <a href="${pageContext.request.contextPath}/home" class="btn btn-secondary">Back</a>
                 <a href="${pageContext.request.contextPath}/merchant/fetch/edit/${MerchantDetails.merchantId}" class="btn btn-primary">Edit Merchant</a>
             </div>
         </div>

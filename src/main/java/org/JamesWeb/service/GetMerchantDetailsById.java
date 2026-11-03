@@ -1,5 +1,6 @@
 package org.JamesWeb.service;
 
+import org.JamesWeb.exception.ApiUserEmailNotFoundException;
 import org.JamesWeb.model.MerchantDetails;
 
 import org.JamesWeb.repository.UserRepository;
@@ -13,6 +14,10 @@ public class GetMerchantDetailsById {
     private UserRepository userRepository;
     public MerchantDetails getMerchantDetailsById(Authentication authentication){
         String email = authentication.getName();
-        return userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("User is not found")).getMerchantDetails();
+        MerchantDetails merchantDetails =  userRepository.findByEmail(email).orElseThrow(()->new ApiUserEmailNotFoundException("User is not found")).getMerchantDetails();
+        if(merchantDetails==null){
+            throw new ApiUserEmailNotFoundException("User doesn't enter the merchant details");
+        }
+        return merchantDetails;
     }
 }

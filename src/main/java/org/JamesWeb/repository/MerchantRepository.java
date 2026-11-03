@@ -25,4 +25,14 @@ public interface MerchantRepository extends JpaRepository<MerchantDetails,String
                         """)
     MerchantDetails findByMerchantIdWithTransactions(@Param("merchantId") String merchantId);
     Long countByStatus(String status);
+
+    @Query(" SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END FROM MerchantDetails m  where m.ph_number = :phNumber")
+    boolean existsByPhNumber(@Param("phNumber") Long phNumber);
+
+    @Query("SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END FROM MerchantDetails m  where m.business_email = :businessEmail")
+    boolean existsByBusinessEmail(@Param("businessEmail") String businessEmail);
+
+    @Query(" SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END  FROM MerchantDetails m  where m.company_name = :companyName")
+    boolean existsByCompanyName(@Param("companyName") String companyName);
+
 }

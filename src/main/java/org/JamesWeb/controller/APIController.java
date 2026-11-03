@@ -28,8 +28,14 @@ public class APIController {
     public String apiCont(Authentication authentication, Model model) throws Exception {
                 log.info("GET /merchant/apikey/getDetails - fetching API details for {}", authentication != null ? authentication.getName() : "anonymous");
                 List<APIModel> apiModel = apiService.apiService(authentication);
+                if(apiModel.isEmpty()){
+                    model.addAttribute("error","Merchant is not approved wait for some time");
+                    return "Api";
+                }
                 String secretKey = apiModel.getFirst().getSecretKeyHash();
                 String decryptKey = ApiKeyUtil.decrypt(secretKey);
+                String merchantId = apiModel.getFirst().getMerchantDetails().getMerchantId();
+                model.addAttribute("merchantId",merchantId);
                 model.addAttribute("secretKey",decryptKey);
                 model.addAttribute("apiDetails",apiModel);
             return "Api";

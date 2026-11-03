@@ -64,7 +64,10 @@
 
                     <div class="app-card-footer" style="border-top: none; padding-left: 0; padding-right: 0; background: transparent;">
                         <button type="submit" class="btn btn-success">Update Merchant</button>
-                        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+                        <a href="${pageContext.request.contextPath}/merchant/fetch/details"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
                     </div>
                 </form>
             </div>

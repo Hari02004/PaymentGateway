@@ -37,7 +37,7 @@
                 </form>
 
                 <div class="auth-footer">
-                    Already have an account? <a href="${pageContext.request.contextPath}/login">Sign in here</a>
+                    Already have an account? <a href="${pageContext.request.contextPath}/">Sign in here</a>
                 </div>
             </div>
         </div>

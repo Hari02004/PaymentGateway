@@ -27,8 +27,7 @@ public class CustomUserDetails implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         users user = loadUserDetails.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-        
-        // Get roles by user ID
+
         java.util.List<org.JamesWeb.model.User_roles> userRoles = userRolesRepo.findByUsersId(user.getId());
 
         List<GrantedAuthority> authorities = userRoles.stream()

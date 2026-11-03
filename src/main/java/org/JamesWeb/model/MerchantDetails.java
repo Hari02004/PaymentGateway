@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString(exclude = {"user", "apiModel"})
+@ToString(exclude = {"user", "apiModel","transactionDetails"})
 public class MerchantDetails {
     @Id
     @Column(unique = true,name = "merchant_id")

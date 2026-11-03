@@ -1,5 +1,7 @@
 package org.JamesWeb.controller;
 
+import org.JamesWeb.exception.DuplicateValueException;
+import org.JamesWeb.exception.MerchantAlreadyExistException;
 import org.JamesWeb.model.MerchantDetails;
 import org.JamesWeb.repository.MerchantRepository;
 import org.JamesWeb.service.GetMerchantDetailsById;
@@ -38,11 +40,10 @@ public class MerchantDetailsController {
     public String merchantDetails(@ModelAttribute MerchantDetails merchantDetails, Principal principal, Model model){
             String loginByEmail = principal.getName();
                 log.info("POST /merchant - saving merchant details for {}", loginByEmail);
-                MerchantDetails merchantDetails1 = merchantServiceDetailsLoading.saveMerchantDetails(merchantDetails, loginByEmail);
-                model.addAttribute("message","Merchant details successfully");
-                model.addAttribute("MerchantDetails",merchantDetails1);
-                return "SuccessFull";
-
+                    MerchantDetails merchantDetails1 = merchantServiceDetailsLoading.saveMerchantDetails(merchantDetails, loginByEmail);
+                    model.addAttribute("message","Merchant details successfully");
+                    model.addAttribute("MerchantDetails",merchantDetails1);
+                    return "SuccessFull";
         }
     @GetMapping("/merchant/fetch/edit/{merchantId}")
     public String editMerchant(@PathVariable("merchantId") String merchantId, Model model) {

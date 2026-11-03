@@ -15,7 +15,7 @@ public class MvcExceptionHandler {
     @ExceptionHandler(ApiUserEmailNotFoundException.class)
     public String apiUserEmailNotFoundException(ApiUserEmailNotFoundException ex,Model model){
         model.addAttribute("error",ex.getMessage());
-        return "Api";
+        return "UserMerchantNotAvailable";
     }
     @ExceptionHandler(MerchantAlreadyExistException.class)
     public String merchantEmailException(MerchantAlreadyExistException ex,Model model){
@@ -32,4 +32,10 @@ public class MvcExceptionHandler {
         model.addAttribute("error",ex.getMessage());
         return "login";
     }
+    @ExceptionHandler(DuplicateValueException.class)
+    public String duplicateKeyException(DuplicateValueException ex,Model model){
+        model.addAttribute("error",ex.getMessage());
+        return "merchantdetails";
+    }
+
 }

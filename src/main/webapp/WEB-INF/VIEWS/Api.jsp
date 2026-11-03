@@ -46,7 +46,11 @@
                         </c:forEach>
                     </div>
                 </c:if>
-
+                  <c:if test="${not empty merchantId}">
+                                     <div class="alert alert-warning" style="margin-top: 1.25rem;">
+                                         <strong>merchantId:</strong> <code><c:out value="${merchantId}" /></code>
+                                     </div>
+                                 </c:if>
                 <c:if test="${not empty secretKey}">
                     <div class="alert alert-warning" style="margin-top: 1.25rem;">
                         <strong>Secret Key:</strong> <code><c:out value="${secretKey}" /></code>

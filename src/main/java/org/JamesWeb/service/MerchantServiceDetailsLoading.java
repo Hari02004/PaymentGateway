@@ -1,5 +1,6 @@
     package org.JamesWeb.service;
 
+    import org.JamesWeb.exception.DuplicateValueException;
     import org.JamesWeb.exception.MerchantAlreadyExistException;
     import org.JamesWeb.model.MerchantDetails;
     import org.JamesWeb.model.users;
@@ -16,6 +17,8 @@
         private MerchantRepository merchantRepository;
         @Autowired
         private UserRepository userRepository;
+        @Autowired
+        private MerchantEmailService merchantEmailService;
         public MerchantDetails saveMerchantDetails(MerchantDetails merchantDetails,String loginWithEmail){
              if(merchantRepository.findByBusiness_email(merchantDetails.getBusiness_email())){
                  throw new MerchantAlreadyExistException("Merchant Email already present");
@@ -30,14 +33,27 @@
              merchantDetails.setStatus(status);
              merchantDetails.setCreated_at(LocalDateTime.now());
              merchantDetails.setUser(userDetail);
-             merchantRepository.save(merchantDetails);
-            return merchantDetails;
+             saveMerchant(merchantDetails);
+             merchantEmailService.sendApprovalEmail(merchantDetails.getOwner_name());
+             return merchantDetails;
         }
         public void updateMerchant(MerchantDetails merchantDetails){
             MerchantDetails merchantDetails1 = merchantRepository.findByMerchantId(merchantDetails.getMerchantId());
             merchantDetails1.setBusiness_email(merchantDetails.getBusiness_email());
             merchantDetails1.setAddress(merchantDetails.getAddress());
             merchantDetails1.setPh_number(merchantDetails.getPh_number());
-            merchantRepository.save(merchantDetails1);
+            saveMerchant(merchantDetails1);
+        }
+        public void saveMerchant(MerchantDetails merchantDetails){
+            if(merchantRepository.existsByBusinessEmail(merchantDetails.getBusiness_email())){
+                throw new DuplicateValueException("Business email already existed");
+            }
+            if(merchantRepository.existsByPhNumber(merchantDetails.getPh_number())){
+                throw new DuplicateValueException("Phone number is already existed");
+            }
+            if(merchantRepository.existsByCompanyName(merchantDetails.getCompany_name())){
+                throw new DuplicateValueException("CompanyName is already existed");
+            }
+            merchantRepository.save(merchantDetails);
         }
     }

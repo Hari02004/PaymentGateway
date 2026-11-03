@@ -5,10 +5,12 @@ import jakarta.servlet.http.HttpSession;
 import org.JamesWeb.DTO.LoginRequestDto;
 import org.JamesWeb.model.users;
 import org.JamesWeb.service.UserService;
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +47,9 @@ public class HomeController {
             return "/home";
         }
     @GetMapping("/")
-    public String login(){
+    public String login(Model model){
             log.info("GET /");
+            model.addAttribute("username","");
             return "login";
     }
     @GetMapping("/logout")
